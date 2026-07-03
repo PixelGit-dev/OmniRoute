@@ -19,6 +19,7 @@
 - **feat(usage):** add on-demand period-scoped usage-data reset (Settings → System Storage) with a purge API and time-window selector.
 - **feat(claude-code):** add an opt-in auto-permission classifier compat mode (off/auto/always) for Claude Code, toggleable from the CLI Code settings.
 - **feat(providers):** add optional client-identity header profiles for compatible nodes — preset User-Agent/fingerprint headers (e.g. matching a known CLI) merged into the existing customHeaders field.
+- **feat(resilience):** throttle upstream quota fetches on the per-request preflight path ([#6009](https://github.com/diegosouzapw/OmniRoute/issues/6009)) — a new global min-interval gate (`open-sse/services/quotaFetchThrottle.ts`) spaces the actual network calls made by the Codex quota fetcher so that many accounts on one IP no longer fetch quota in the same second (which, per `router-for-me/CLIProxyAPI#2385`, can get a Codex OAuth token revoked). Complements the existing bulk-sync spacing (`PROVIDER_LIMITS_SYNC_SPACING_MS`) which already serialized the periodic provider-limits sync — this covers the concurrent combo/preflight path it didn't. Cache hits are never delayed; fail-open (only ever awaits a timer). Configurable via `OMNIROUTE_QUOTA_FETCH_MIN_INTERVAL_MS` (default 250ms, clamped 0..5000; `0` disables). Regression guard: `tests/unit/quota-fetch-throttle-6009.test.ts` (5). (thanks @powellnorma)
 
 ### 🔧 Bug Fixes
 
