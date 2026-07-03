@@ -8,7 +8,7 @@
 
 ### ✨ New Features
 
-_TBD_
+- **feat(services):** add Mux as a managed embedded service (install/start/stop/logs + dashboard tab). (thanks @Ansh7473)
 
 ### 🔧 Bug Fixes
 
