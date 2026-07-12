@@ -192,7 +192,7 @@ services:
   # fall back to the chatCore path with zero code changes. See
   # docs/architecture/cluster-decisions.md for the activation plan.
   bifrost:
-    image: ghcr.io/maximhq/bifrost:1.5.21
+    image: docker.io/maximhq/bifrost:v2.0.0-prerelease1-ubi9
     container_name: omniroute-bifrost
     restart: unless-stopped
     ports:
@@ -209,11 +209,10 @@ services:
       start_period: 15s
     profiles:
       - bifrost
-
   # ── Profile: cliproxyapi (CLIProxyAPI as sidecar) ─────────────────
   cliproxyapi:
     container_name: cliproxyapi
-    image: ghcr.io/router-for-me/cliproxyapi:v6.9.7
+    image: docker.io/sfun/cliproxyapi-pro:v7.2.66-pro
     restart: unless-stopped
     ports:
       - "${CLIPROXYAPI_PORT:-8317}:${CLIPROXYAPI_PORT:-8317}"
